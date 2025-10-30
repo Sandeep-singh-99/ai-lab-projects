@@ -124,10 +124,8 @@
 
 
 
-
 import os
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
 import streamlit as st
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import InMemorySaver
@@ -136,22 +134,24 @@ from langgraph.graph.message import add_messages
 from typing_extensions import TypedDict
 from typing import Annotated
 import uuid
+from langchain_ollama import OllamaLLM  # Use Ollama local model
 
+# Load environment variables if needed
 load_dotenv()
 
-# Memory for LangGraph workflow
+# --- Memory for LangGraph workflow ---
 memory = InMemorySaver()
 
-# Gemini LLM for email drafting
-llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+# --- Ollama LLM for email drafting ---
+llm = OllamaLLM(model="gemma3:1b", temperature=0)
 
-# State definition
+# --- Define workflow state ---
 class State(TypedDict):
     email_topic: Annotated[list, add_messages]
     email_category: Annotated[list, add_messages]
     result: Annotated[list, add_messages]
 
-# Email generation logic
+# --- Email generation logic ---
 def create_email_graph(state: State):
     input_topic = state["email_topic"][-1].content
     input_category = state["email_category"][-1].content
@@ -162,13 +162,14 @@ def create_email_graph(state: State):
         "Make sure the email is well-structured and professional."
     )
 
+    # Ollama returns string directly
     response = llm.invoke(prompt)
 
-    if not response or not response.content:
+    if not response:
         st.error("Failed to generate email draft. Please try again.")
         return state  # fallback
 
-    raw_output = response.content.strip()
+    raw_output = response.strip()
 
     return {
         "email_topic": state["email_topic"],
@@ -176,7 +177,7 @@ def create_email_graph(state: State):
         "result": [AIMessage(content=raw_output)],
     }
 
-# Workflow setup
+# --- Setup LangGraph workflow ---
 workflow = StateGraph(State)
 workflow.add_node("create_email_graph", create_email_graph)
 workflow.add_edge(START, "create_email_graph")
@@ -184,15 +185,17 @@ workflow.add_edge("create_email_graph", END)
 
 graph = workflow.compile(checkpointer=memory)
 
-# Streamlit UI
+# --- Streamlit UI ---
 st.set_page_config(page_title="Email Draft Generator", page_icon="✉️")
 st.title("✉️ Email Draft Generator")
 
 st.header("Generate Email Draft")
 user_input = st.text_area("Enter the email topic or key points:", height=150)
 
-category = st.selectbox("Select Email Category:", 
-                        ["Business", "Personal", "Marketing", "Follow-up", "Thank You", "Invitation"])
+category = st.selectbox(
+    "Select Email Category:", 
+    ["Business", "Personal", "Marketing", "Follow-up", "Thank You", "Invitation"]
+)
 
 if st.button("Generate Draft"):
     if user_input.strip() == "":
