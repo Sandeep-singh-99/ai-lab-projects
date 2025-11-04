@@ -143,7 +143,7 @@ load_dotenv()
 memory = InMemorySaver()
 
 # --- Ollama LLM for email drafting ---
-llm = OllamaLLM(model="gemma3:1b", temperature=0)
+llm = OllamaLLM(model="llama3:8b", temperature=0)
 
 # --- Define workflow state ---
 class State(TypedDict):

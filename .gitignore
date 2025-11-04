@@ -1,0 +1,4 @@
+.venv/
+
+generate-notes/__pycache__/
+generate-notes/*.env
