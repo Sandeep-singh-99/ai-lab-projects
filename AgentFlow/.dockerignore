@@ -1,0 +1,10 @@
+server/venv
+server/.venv
+node_modules
+client/node_modules
+client/dist
+.git
+.gitignore
+__pycache__
+*.pyc
+.DS_Store
