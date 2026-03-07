@@ -2,3 +2,5 @@
 .env
 generate-notes/__pycache__/
 generate-notes/*.env
+
+GenAI_Agents/.env
