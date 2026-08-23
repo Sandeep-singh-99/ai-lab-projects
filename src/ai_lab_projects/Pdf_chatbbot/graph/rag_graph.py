@@ -2,7 +2,7 @@ from typing import TypedDict, Annotated, Sequence
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
 from langgraph.graph import StateGraph, END
 from langgraph.graph.message import add_messages
-from chains.rag_chain import get_rag_chain
+from ai_lab_projects.Pdf_chatbbot.chains.rag_chain import get_rag_chain
 
 
 class GraphState(TypedDict):

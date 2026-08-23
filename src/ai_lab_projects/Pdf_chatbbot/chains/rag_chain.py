@@ -1,7 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
-from chains.llm import get_llm
+from ai_lab_projects.Pdf_chatbbot.chains.llm import get_llm
 
 
 def format_docs(docs):

@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 # Load environment variables first
 load_dotenv()
 
-from services.ingest_service import ingest_pdf, get_existing_vectorstore
-from graph.rag_graph import create_rag_graph
+from ai_lab_projects.Pdf_chatbbot.services.ingest_service import ingest_pdf, get_existing_vectorstore
+from ai_lab_projects.Pdf_chatbbot.graph.rag_graph import create_rag_graph
 from langchain_core.messages import HumanMessage, AIMessage
 
 # Page configuration

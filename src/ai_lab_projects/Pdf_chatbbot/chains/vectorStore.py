@@ -1,5 +1,5 @@
 from langchain_chroma import Chroma
-from chains.embeddings import get_embeddings
+from ai_lab_projects.Pdf_chatbbot.chains.embeddings import get_embeddings
 
 
 def get_vectorstore(persist_directory):

@@ -1,6 +1,6 @@
-from chains.vectorStore import get_vectorstore
-from chains.pdf_loader import load_pdf
-from chains.splitters import get_splitter
+from ai_lab_projects.Pdf_chatbbot.chains.vectorStore import get_vectorstore
+from ai_lab_projects.Pdf_chatbbot.chains.pdf_loader import load_pdf
+from ai_lab_projects.Pdf_chatbbot.chains.splitters import get_splitter
 import os
 
 
